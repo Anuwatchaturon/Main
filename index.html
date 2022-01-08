@@ -19,6 +19,57 @@ body {
 
 <body>
 
+<?php
+    header("Access-Control-Allow-Origin: *");
+	header("Content-Type: application/json; charset=UTF-8");
+ $host ="localhost";
+$username = "root";
+$password="";
+$DBname="aquarium";
+
+$con = mysqli_connect($host,$username,$password,$DBname);
+
+	$input  = file_get_contents("php://input");
+	$data = json_decode($input,true);
+	//$message = array();
+
+   //$getid =   $getdata->id; 
+   //$getdata1 = $getdata->data1;
+
+	$getid =   $data['id'];
+   $getdata1 =$data['data1'];
+	
+
+	 
+//$getid = 12;
+//$getdata1 =  $data->data1;
+
+$sql = "UPDATE test_data SET data1='$getdata1' WHERE id='$getid '";
+
+
+$result = mysqli_query($con,$sql);
+
+
+if($result){
+	$callback = array(
+	'status' => 200,
+	'msg' => 'done'
+	);
+}else{
+		$callback = array(
+	'status' => 400,
+	'msg' => 'fail'
+	);
+}
+echo json_encode($callback);
+echo mysqli_error($con);
+?>  
+  
+  
+  
+  
+  
+  
 <div id="para1">
 <h1 >This is a Heading</h1>
 <p>This is a paragraph.</p>
